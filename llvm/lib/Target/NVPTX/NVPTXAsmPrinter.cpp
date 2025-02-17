@@ -914,7 +914,7 @@ void NVPTXAsmPrinter::emitLinkageDirective(const GlobalValue *V,
       else
         O << ".visible ";
     } else if (V->hasAppendingLinkage()) {
-      report_fatal_error("Symbol '" + llvm::Twine(V->getNameOrAsOperand()) +
+      report_fatal_error("Symbol '" + (V->hasName() ? V->getName() : "") +
                          "' has unsupported appending linkage type");
     } else if (!V->hasInternalLinkage() && !V->hasPrivateLinkage()) {
       O << ".weak ";
@@ -1437,7 +1437,7 @@ void NVPTXAsmPrinter::emitFunctionParamList(const Function *F, raw_ostream &O) {
         else if (IsTexture)
           O << ".texref ";
         else // IsSurface
-          O << ".samplerref ";
+          O << ".surfref ";
         O << ParamSym;
         continue;
       }
