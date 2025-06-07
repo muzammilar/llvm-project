@@ -39,6 +39,10 @@
 # define __has_builtin(x) 0
 #endif
 
+#ifndef __has_warning
+# define __has_warning(x) 0
+#endif
+
 // Only use __has_cpp_attribute in C++ mode. GCC defines __has_cpp_attribute in
 // C mode, but the :: in __has_cpp_attribute(scoped::attribute) is invalid.
 #ifndef LLVM_HAS_CPP_ATTRIBUTE
@@ -232,6 +236,12 @@
 #define LLVM_PREFETCH(addr, rw, locality) __builtin_prefetch(addr, rw, locality)
 #else
 #define LLVM_PREFETCH(addr, rw, locality)
+#endif
+
+#if __has_attribute(uninitialized)
+#define LLVM_ATTRIBUTE_UNINITIALIZED __attribute__((uninitialized))
+#else
+#define LLVM_ATTRIBUTE_UNINITIALIZED
 #endif
 
 #if __has_attribute(used)
