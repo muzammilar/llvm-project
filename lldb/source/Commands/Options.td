@@ -683,6 +683,11 @@ let Command = "platform shell" in {
     Desc<"Shell interpreter path. This is the binary used to run the command.">;
 }
 
+let Command = "plugin list" in {
+  def plugin_list_json : Option<"json", "j">,
+                         Desc<"Output the plugin list in json format.">;
+}
+
 let Command = "process launch" in {
   def process_launch_stop_at_entry : Option<"stop-at-entry", "s">,
     Desc<"Stop at the entry point of the program when launching a process.">;
@@ -1249,6 +1254,10 @@ let Command = "type summary add" in {
     Desc<"Don't show the value, just show the summary, for this type.">;
   def type_summary_add_skip_pointers : Option<"skip-pointers", "p">,
     Desc<"Don't use this format for pointers-to-type objects.">;
+  def type_summary_add_pointer_match_depth : Option<"pointer-match-depth", "d">,
+    Arg<"UnsignedInteger">,
+    Desc<"Specify the maximum pointer depth that this format can be apply to "
+    "(default to 1). It's only effective when --skip-pointers is not set.">;
   def type_summary_add_skip_references : Option<"skip-references", "r">,
     Desc<"Don't use this format for references-to-type objects.">;
   def type_summary_add_regex : Option<"regex", "x">,
@@ -1480,5 +1489,11 @@ let Command = "statistics dump" in {
     "scripts executed during a debug session. "
     "Defaults to true, unless the '--summary' mode is enabled, in which case "
     "this is turned off unless specified.">;
-
+  def statistics_dump_plugins
+      : Option<"plugins", "p">,
+        Group<1>,
+        Arg<"Boolean">,
+        Desc<"Dump statistics for known plugins including name, order, and "
+             "enabled state. Defaults to true for both summary and default "
+             "mode.">;
 }
